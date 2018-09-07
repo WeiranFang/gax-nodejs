@@ -221,6 +221,7 @@ export class GrpcClient {
    * @return {Object} The gRPC loaded result (the toplevel namespace object).
    */
   load(args: Array<{}>) {
+    console.log('Using load!!');
     if (!args) {
       args = [];
     } else if (!Array.isArray(args)) {
@@ -243,8 +244,11 @@ export class GrpcClient {
    */
   loadProto(protoPath: string, filename: string) {
     const resolvedPath = GrpcClient._resolveFile(protoPath, filename);
-    return this.grpc.loadObject(
+    const retval = this.grpc.loadObject(
         protobuf.loadSync(resolvedPath, new GoogleProtoFilesRoot()));
+    console.log('loadProto', protoPath, filename);
+    console.log(JSON.stringify(retval, null, '  '));
+    return retval;
   }
 
   static _resolveFile(protoPath: string, filename: string) {
